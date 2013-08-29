@@ -40,6 +40,7 @@ void loop() {
     matrix.fillScreen(0);
     printTimeToMatrix(matrix.Color(255,50,255));
     matrix.show();
+    //digitalClockDisplay();
   }
   
 }
@@ -85,7 +86,7 @@ void printTimeToMatrix(uint16_t color){
     hourTo(currentHour, color);
   }
 
-
+  //MINUTES
   if ( (currentMinute >= 5 && currentMinute < 10) || (currentMinute >= 55 && currentMinute < 60) ){
     for (int i = 6; i <= 9; i++){
       matrix.drawPixel(i, 2, color);
@@ -117,11 +118,6 @@ void printTimeToMatrix(uint16_t color){
       matrix.drawPixel(i, 3, color);
     }
   }
-
-
-
-  //HOUR
-  
 }
 
 void hourPast(int currentHour, uint16_t color){
@@ -238,6 +234,28 @@ void doSerialDuties(){
       setTime(t);
     }
   }
+}
+
+void digitalClockDisplay() {
+  // digital clock display of the time
+  Serial.print((hour()+GMT)%24);
+  printDigits(minute());
+  printDigits(second());
+  Serial.print(" ");
+  Serial.print(day());
+  Serial.print(" ");
+  Serial.print(month());
+  Serial.print(" ");
+  Serial.print(year()); 
+  Serial.println(); 
+}
+
+void printDigits(int digits){
+  // utility function for digital clock display: prints preceding colon and leading 0
+  Serial.print(":");
+  if(digits < 10)
+    Serial.print('0');
+  Serial.print(digits);
 }
 
 time_t getTeensy3Time()
