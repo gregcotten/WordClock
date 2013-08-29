@@ -7,7 +7,8 @@
 
 enum page {
   CLOCK,
-  BRIGHTNESS,
+  SET_BRIGHTNESS,
+  SET_COLOR,
   SET_CLOCK
 };
 
@@ -25,7 +26,7 @@ void setup() {
   
   matrix.begin();
   //matrix.setTextWrap(false);
-  matrix.setBrightness(50);
+  matrix.setBrightness(100);
 
   setSyncProvider(getTeensy3Time);
   //matrix.setTextColor(colors[0]);
@@ -47,6 +48,13 @@ void printTimeToMatrix(uint16_t color){
   int currentHour = (hour() + GMT)%24;
   int currentMinute = minute();
 
+  if(currentHour > 20 || currentHour < 8){
+    matrix.setBrightness(50);
+  }
+  else{
+    matrix.setBrightness(100);
+  }
+
   //IT IS
   for (int i = 0; i <= 1; i++){
     matrix.drawPixel(i, 0, color);
@@ -60,6 +68,7 @@ void printTimeToMatrix(uint16_t color){
     for (int i = 5; i <= 10; i++){
       matrix.drawPixel(i, 9, color);
     }
+    hourPast(currentHour, color);
   }
   else if (currentMinute <= 30){
     //X PAST
@@ -77,7 +86,7 @@ void printTimeToMatrix(uint16_t color){
   }
 
 
-  if (currentMinute >= 5 && currentMinute < 10){
+  if ( (currentMinute >= 5 && currentMinute < 10) || (currentMinute >= 55 && currentMinute < 60) ){
     for (int i = 6; i <= 9; i++){
       matrix.drawPixel(i, 2, color);
     }
