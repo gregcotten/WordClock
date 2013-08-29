@@ -71,14 +71,14 @@ void printTimeToMatrix(uint16_t color){
     }
     hourPast(currentHour, color);
   }
-  else if (currentMinute <= 30){
+  else if (currentMinute < 35){
     //X PAST
     for (int i = 0; i <= 3; i++){
     matrix.drawPixel(i, 4, color);
     }
     hourPast(currentHour, color);
   }
-  else if (currentMinute > 30){
+  else if (currentMinute >= 35){
     //X TO
     for (int i = 9; i <= 10; i++){
     matrix.drawPixel(i, 3, color);
